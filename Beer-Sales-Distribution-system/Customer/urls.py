@@ -21,6 +21,7 @@ urlpatterns = [
   
     
     path('customer-transaction-detail/<int:pk>',views.customer_transaction_detail,name="customer-transaction-detail"),
-
+    
+path('ipn/', views.ipn, name="customer_ipn"),
   
 ]

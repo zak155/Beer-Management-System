@@ -89,6 +89,69 @@ def Customer_dashboard(request):
         return redirect('logout')
 
 # User Profile
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+
+@csrf_exempt
+def ipn(request):
+    """
+    Asynchronous Webhook / IPN listener for Chapa server-to-server notifications.
+    Protected by @csrf_exempt because requests originate externally from Chapa servers.
+    """
+    if request.method == 'POST':
+        try:
+            payload = json.loads(request.body.decode('utf-8'))
+            
+            # Extract transaction data sent by Chapa webhook event
+            tx_ref = payload.get('tx_ref')
+            status = payload.get('status')
+            
+            if not tx_ref:
+                return HttpResponse(status=400)
+
+            # Locate internal transaction safely
+            try:
+                transaction_record = Customer_Transaction.objects.get(tx_ref=tx_ref)
+            except Customer_Transaction.DoesNotExist:
+                return HttpResponse(status=404)
+
+            # IDEMPOTENCY CHECK: If already marked paid, acknowledge immediately without re-processing
+            if transaction_record.Paid_status == 'Paid':
+                return HttpResponse(status=200)
+
+            customer_order = transaction_record.Customer_order_id
+
+            # Perform a secondary Server-to-Server Verification to guarantee authenticity
+            chapa_service = ChapaPaymentService()
+            verification_response = chapa_service.verify_payment(tx_ref)
+
+            if verification_response and verification_response.get('status') == 'success':
+                data = verification_response.get('data', {})
+                api_status = data.get('status')
+                api_amount = float(data.get('amount', 0))
+
+                if api_status == 'success' and api_amount >= float(transaction_record.Total_Amount):
+                    # Atomically update records
+                    transaction_record.Paid_status = 'Paid'
+                    transaction_record.provider_status = 'SUCCESS'
+                    transaction_record.TransactionCode = data.get('reference', tx_ref)
+                    transaction_record.save()
+
+                    customer_order.status = 'Pending'  # Keeps order available for finance review workflow
+                    customer_order.save()
+                else:
+                    transaction_record.Paid_status = 'Not Paid'
+                    transaction_record.provider_status = 'FAILED'
+                    transaction_record.save()
+
+            return HttpResponse(status=200)
+
+        except Exception as e:
+            # Log error internally without exposing details publicly
+            return HttpResponse(status=500)
+
+    return HttpResponse(status=405)
 
 @login_required(login_url=('login'))
 def show_profile(request):
@@ -575,59 +638,7 @@ def success(request):
     except Exception as e:
         messages.error(request, f'An error occurred during verification: {str(e)}')
         return redirect('customer_transactions')
-    try:
-        if request.user.groups.all()[0].name == 'Customer':
-            ii = request.GET.get('itemId')
-            total = request.GET.get('TotalAmount')
-            moi = request.GET.get('MerchantOrderId')
-            ti = request.GET.get('TransactionId')
-            status = request.GET.get('Status')
-            TransactionCode = request.GET.get('TransactionCode')
-            MerchantCode = request.GET.get('MerchantCode')
-            BuyerId = request.GET.get('BuyerId')
-            Currency = request.GET.get('Currency')
-            if not moi:
-                return redirect('')
-
-            url = 'https://testapi.yenepay.com/api/verify/pdt/'
-            datax = {
-                "requestType": "PDT",
-                "pdtToken": "Q1woj27RY1EBsm",
-                "transactionId": ti,
-                "merchantOrderId": moi
-            }
-            x = requests.post(url, datax)
-            if x.status_code == 200:
-                print("It's Paid")
-            else:
-                print('Invalid payment process')
-            Customer_Order = Customer_order.objects.get(id=moi)
-            context = {
-                'total': total,
-                'status': status,
-                'TransactionCode': TransactionCode,
-                'MerchantCode': MerchantCode,
-                'BuyerId': BuyerId,
-                'Currency': Currency,
-                'moi': moi,
-                'Customer_Order': Customer_Order,
-
-            }
-
-            TC = Customer_Transaction.objects.filter(
-                TransactionCode=TransactionCode)
-
-            if TC.exists():
-                redirect('customer_transactions')
-            else:
-                Customer_Transaction.objects.create(Customer_order_id=Customer_Order, Paid_status=status,
-                                                    Total_Amount=total, TransactionCode=TransactionCode, MarchentId=MerchantCode)
-            return render(request, 'Customer/post-payment.html', context)
-        messages.error(request, 'permission denied ')
-        return redirect('logout')
-    except IndexError as e:
-        messages.error(request, 'Login Before ')
-        return redirect('logout')
+    
 
 # def cancel(request):
 #     return render(request, 'Agent/cancel.html')
