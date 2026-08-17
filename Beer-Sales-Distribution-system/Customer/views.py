@@ -503,73 +503,78 @@ def order_summer(request):
     except Exception as e:
         messages.error(request, f'An error occurred: {str(e)}')
         return redirect('logout')
-    try:
-        if request.user.groups.all()[0].name == 'Customer':
-            ag = Customer_order.objects.create(
-                Customer=request.user.customer, status='Pending', driver_status='Not Assigned')
-            all_product = Product.objects.all()
+  
 
-            ary1 = []
-            ary2 = []
-            a = 0
-            tl = 0
-            arr = {}
-            q = 0
-            if request.method == 'POST':
-                for product in all_product:
-                    a = request.POST[product.Product_Name]
-                    arr[product.Product_Name] = a
-                    tp = product.Price_in_creates * \
-                        int(request.POST[product.Product_Name])
-                    ary1.append(a)
-                    ary2.append(tp)
-                    q += int(a)
-                    tl = tl+tp
-
-                print(arr)
-                for key, value in arr.items():
-                    setattr(ag, key, value)
-                ag.save()
-
-                obj = {
-                    "process": "Cart",
-                    "successUrl": "http://localhost:8000/Customer/success/",
-                    "ipnUrl": "http://localhost:8000/Customer/ipn",
-                    "cancelUrl": "http://localhost:8000/Customer/cancel",
-                    "merchantId": "SB1560",
-                    "merchantOrderId": ag.id,
-                    "expiresAfter": 24,
-                    "totalItemsDeliveryFee": 19,
-                    "totalItemsDiscount": 1,
-                    "totalItemsHandlingFee": 12,
-                    "totalItemsTax1": 250,
-                    "totalItemsTax2": 0
-                }
-                cart = {"cartitems": [
-                    {"itemId": "sku-01", "itemName": "Beer", "unitPrice": tl, "quantity": 1}, ]}
-                mylist = zip(all_product, ary1, ary2)
-                context = {
-                    'all_product': all_product,
-
-                    'a': a,
-                    'ary': ary1,
-                    'mylist': mylist,
-                    'tl': tl,
-                    'obj': obj,
-                    'cart': cart,
-                    'q': q,
-
-                }
-                return render(request, 'Customer/order_summer.html', context)
-            return redirect('make_order')
-        messages.error(request, 'permission denied ')
-        return redirect('logout')
-    except IndexError as e:
-        messages.error(request, 'Login Before ')
-        return redirect('logout')
 
 @login_required(login_url=('login'))
 def success(request):
+    try:
+        if request.user.groups.all()[0].name == 'Customer':
+            tx_ref = request.GET.get('tx_ref')
+            
+            if not tx_ref:
+                messages.error(request, "Invalid payment return reference.")
+                return redirect('customer_transactions')
+
+            # 1. Locate the internal transaction record using tx_ref
+            try:
+                transaction_record = Customer_Transaction.objects.get(tx_ref=tx_ref)
+            except Customer_Transaction.DoesNotExist:
+                messages.error(request, "Transaction record not found.")
+                return redirect('customer_transactions')
+
+            customer_order = transaction_record.Customer_order_id
+
+            # 2. Perform Server-to-Server Verification with Chapa API
+            chapa_service = ChapaPaymentService()
+            verification_response = chapa_service.verify_payment(tx_ref)
+
+            is_verified = False
+            provider_status = "FAILED"
+
+            if verification_response and verification_response.get('status') == 'success':
+                data = verification_response.get('data', {})
+                api_amount = float(data.get('amount', 0))
+                api_currency = data.get('currency', 'ETB')
+                api_status = data.get('status', '') # usually 'success'
+
+                # 3. Strict Validation checks (Amount and Currency integrity)
+                if api_status == 'success' and api_amount >= float(transaction_record.Total_Amount):
+                    is_verified = True
+                    provider_status = "SUCCESS"
+
+            # 4. Atomically Update Records Based on Verified Status
+            if is_verified:
+                transaction_record.Paid_status = 'Paid'
+                transaction_record.provider_status = provider_status
+                transaction_record.TransactionCode = data.get('reference', tx_ref)
+                transaction_record.save()
+
+                # Update order status if appropriate for your workflow
+                customer_order.status = 'Pending'  # Keeps it ready for finance/store workflow review
+                customer_order.save()
+            else:
+                transaction_record.Paid_status = 'Not Paid'
+                transaction_record.provider_status = provider_status
+                transaction_record.save()
+                messages.error(request, "Payment verification failed or amount mismatch detected.")
+
+            context = {
+                'total': transaction_record.Total_Amount,
+                'currency': transaction_record.currency,
+                'status': transaction_record.Paid_status,
+                'tx_ref': tx_ref,
+                'transaction_code': transaction_record.TransactionCode,
+                'Customer_Order': customer_order,
+            }
+
+            return render(request, 'Customer/post-payment.html', context)
+            
+        messages.error(request, 'Permission denied')
+        return redirect('logout')
+    except Exception as e:
+        messages.error(request, f'An error occurred during verification: {str(e)}')
+        return redirect('customer_transactions')
     try:
         if request.user.groups.all()[0].name == 'Customer':
             ii = request.GET.get('itemId')
