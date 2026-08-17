@@ -1,0 +1,83 @@
+{% extends 'Company/company-base.html' %}
+{% block content %}
+<!-- ====== Main -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage Agents</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">View Agents</li>
+      </ol>
+      <div class="text-end">
+        <a href="{% url 'add-agent' %}" class="item-end">
+          <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add
+            Agent</button>
+        </a>
+      </div>
+
+    </nav>
+
+  </div><!-- End Page Title -->
+  {% for mssg in messages%}
+  {% if mssg.tags == 'success' %}
+  <div class="alert alert-success" role="alert">
+    {{mssg}}
+  </div>
+  {%else %}
+  <div class="alert alert-danger" role="alert">
+    {{mssg}}
+  </div>
+  {% endif %}
+  {% endfor %}
+
+ 
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Agent</th>
+                  <th scope="col">Region</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">date_created</th>
+                  <th scope="col">last_updated</th>
+                  <th scope="col">View</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for agent in all_agent %}
+                {% if agent.user.is_active%}
+                <tr>
+                  <th scope="row">1</th>
+                  <td><a href="{%  url 'agent-detail' agent.id  %}">{{agent.Full_Name}}</a></td>
+                  <td>{{agent.Region}}</td>
+                  <td>{{agent.city}}</td>
+                  <td>{{agent.phone1}}</td>
+                  <td>{{agent.date_created}}</td>
+                  <td>{{agent.last_updated}}</td>
+                  <td><a href="{% url 'agent-detail' agent.id %}">
+                      <h3><i class="bi bi-eye"></i></h3>
+                    </a></td>
+
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

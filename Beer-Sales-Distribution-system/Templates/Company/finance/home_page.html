@@ -1,0 +1,68 @@
+{% extends 'Company/finance/finance_base.html' %}
+{% load static %}
+{% block content %}
+  <!-- ====== Main -->
+  <main  class="mt-5 pt-4">
+      <div class="container">
+        <section class="section dashboard">
+            <div class="row">
+              <!-- Left side columns -->
+              <div class="col-lg-12">
+                <div class="row">
+               
+                  <div class="card info-card customers-card">
+                    <h5 class="card-title">Available in store</h5>
+                    <table class="table table-border " id="approve_orders">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Agent</th>
+                          <th scope="col">Order Code</th>
+                          <th scope="col">Total paid</th>
+                          <th scope="col">Pay Status</th>
+                          <th scope="col">Approveal Status</th>
+                          <th scope="col">View</th>
+                          <th scope="col">Approve</th>
+                          <th scope="col">Reject</th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>1</th> 
+                          <td>12-6-2022</td>
+                          <td>Gebrekidam</td>
+                          <td>BXL783R</td>
+                          <td>6000 ETB</td>
+                          <td>Paid</td>
+                          <td><span class="badge bg-warning">pending</span></td>
+                          <td>
+                            <button  type="button" class="btn btn-warning">View slip</button>
+                          </td>
+                          <td>
+                            <button  type="button" class="btn btn-success">Approve</button>
+                          </td>
+                            <td>
+                              <button type="button" class="btn btn-danger">Reject</button>
+                            </td>
+                          </tr>
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              {% for a in all_tranaction %}
+              {{a.Agent_order_id.status}}
+              {% endfor %}
+            </div><!-- End Recent Activity -->   
+              </div><!-- End Right side columns -->
+      
+            </div>
+          </section>
+      </div>
+      {{ redirect_to_login_immediately }}
+  </main><!-- End #main -->
+
+ {% endblock %}

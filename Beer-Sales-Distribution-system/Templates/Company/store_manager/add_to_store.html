@@ -1,0 +1,53 @@
+{% extends 'Company/store_manager/store_base.html' %}
+{% load static %}
+{% block content %}
+<!-- ====== Main -->
+<main class="mt-5 pt-4">
+  <div class="container">
+    <section class="section">
+      <div class="row">
+
+
+        <div class="col-lg-8 d-flex flex-column align-items-center justify-content-center">
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title text-center pb-0 fs-4 text-warning">Add product to store</h5>
+              <form class="row g-3 needs-validation" method="POST" action="">
+                {% csrf_token %}
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="payment option" class="form-label">Store</label>
+                  <select class="form-select" id="paymentchoosen" name="product">
+                    <option selected disabled value="">Choose Product</option>
+                    {% for product in all_Product %}
+                    <option value="{{product.Product_Name}}">{{product}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">
+                    select payment option please
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="amount" class="form-label">Amount</label>
+                  <input type="number" name="amount" class="form-control"  required>
+                  <div class="invalid-feedback">Please, provide amount!</div>
+                </div>
+
+
+                <hr class="mb-4">
+                <div class="col-12">
+                  <button onclick="validation()" class="btn btn-warning text-white w-100" type="submit">Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </section>
+  </div>
+</main><!-- End #main -->
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'Company/agents/agent-detail.html' %}
+{% block agent_detile %}
+<!-- 
+<div class="col-lg-4 text-end">
+    <a href="{% url 'remove-agent' agent.id %}" class="btn btn-danger" type="submit"><i class="bi bi-trash"></i></a>
+</div> -->
+<div class="alert alert-danger pr-5" role="alert">
+    <h4 class="alert-heading">Are you sure?</h4>
+    <p>Do you want to delete Agent {{agent.user.first_name}} {{agent.user.last_name}}</p>
+    <hr>
+    <a href="{% url 'agent-detail' agent.id %}" class="btn btn-info btn-sm text-white">Cancel</a>
+    <a href="{% url 'remove-agent' agent.id %}" class="btn btn-danger btn-sm text-white">Ok</a>
+</div>
+{% endblock %}

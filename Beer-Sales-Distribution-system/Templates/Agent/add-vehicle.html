@@ -1,0 +1,60 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+
+<!-- ====== Main -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage Vehicles</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Add Vehicle</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section add-agent">
+    <div class="row">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 d-flex flex-column align-items-center justify-content-center">
+          <div class="card mb-5">
+            <div class="card-body">
+              <h5 class="card-title text-center pb-0 fs-4">Adding vehicle</h5>
+              <form class="row g-3 needs-validation" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="vehicle" class="form-label">Vehicle name</label>
+                  <input type="text" name="vehicle_name" id="vehicle" class="form-control" required>
+                  <div class="invalid-feedback">Please enter vehicle's name!</div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="Vehicle role" class="form-label">Vehicle Role</label>
+                  <select class="form-select" name="car_type" id="vehicle_role">
+                    <option value="Fetch">Fetch</option>
+                    <option value="Distribution">Distribution</option>
+                  </select>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="plate" class="form-label">Plate number</label>
+                  <input type="text" name="plate_num" class="form-control" id="plate_num" required>
+                  <div class="invalid-feedback">Please enter username!</div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                  <label for="photo" class="form-label">Photo</label>
+                  <input type="file" name="vehiclePhoto" class="form-control" id="vehiclePhoto" required>
+                  <div class="invalid-feedback">Please upload photo!</div>
+                </div>
+                <hr class="mb-4">
+                <div class="col-4">
+                  <button id="add_vehicle" class="btn btn-warning w-100 text-white" type="submit">Add</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+
+{% endblock %}

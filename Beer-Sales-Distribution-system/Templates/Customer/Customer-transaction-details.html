@@ -1,0 +1,85 @@
+{% extends 'Customer/Customer-base.html' %}
+{% block content %}
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="row">
+        <!-- transaction details -->
+        <div class="col-xxl-4 col-md-8">
+            <div class="card info-card">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Order Information</h5>
+                   
+                      <table class="table table-border">
+                        <thead>
+                          <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">unit price</th>
+                            <th scope="col">quantity</th>
+                            <th scope="col">Sub price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                      
+                            {% for row in data %}
+                          <tr>
+                            {% for cell in row %}
+                            <th>{{cell}}</th> 
+                            {% endfor %}
+                          </tr>
+                          {% endfor %}
+                          <tr>
+                              
+                                <th scope="col">Total Quantity</th>
+                                <th scope="col">  --------  </th>
+                                <th scope="col">{{total_quantity}}</th>
+                                <th scope="col">  --------  </th>
+                             
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+            </div>
+        </div>
+        
+            <div class="col-xxl-4 col-md-4">  
+                <div class="card info-card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Payment Information</h5>
+                        <hr class="mb-4">
+                    <div>
+                        <span class="card-title">Order ID: </span>
+                        <span id="order_id" class="text-muted">{{transaction.TransactionCode}}</span>
+                    </div>
+                    <div>
+                        <span id="store" class="card-title">Requested Store: </span>
+                        <span id="store" class="text-muted">Awasa</span>
+                    </div>
+                    <!-- <div>
+                        <span class="card-title">Order Date: </span>
+                        <span id="order_date" class="text-muted">{{transaction.created_date}}</span>
+                    </div> -->
+                    <div>
+                        <span class="card-title">Payment: </span>
+                        <span id="payment_type" class="text-muted">YenePay</span>
+                    </div>
+                    <div>
+                        <span class="card-title">Total Paid </span>
+                        <strong id="total_paid" class="text-muted">{{transaction.Total_Amount }}</strong>
+                    </div>
+                    <div>
+                        <span class="card-title">Approval status: </span>
+                        <span id="approval_status" class="text-muted">Approved</span>
+                    </div>
+                    </div>        
+                </div>
+            </div>
+       
+        <!-- End transaction details -->
+    
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

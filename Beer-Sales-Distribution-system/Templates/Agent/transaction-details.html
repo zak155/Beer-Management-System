@@ -1,0 +1,153 @@
+{% extends 'Agent/agent-base.html' %}
+{% load static %}
+{% block content %}
+<!-- ====== Main -->
+<main class="mt-5 pt-4">
+  <div class="container">
+    {% if messages %}
+    {% for mes in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{{mes}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <section class="section dashboard m-5">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="row">
+            <div class="card info-card">
+              <div class="card-body">
+                <h5 class="card-title text-center">Order Information</h5>
+                <hr class="mb-4">
+                <table id="transaction_table" class="table table-border">
+                  <h5>Order Information</h5>
+                  <hr class="mb-4">
+                  <thead>
+                    <tr>
+
+                      <th scope="col">Product</th>
+                      <th scope="col">unit price</th>
+                      <th scope="col">quantity</th>
+                      <th scope="col">Sub price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {% for row in data %}
+                    <tr>
+                      {% for cell in row %}
+                      <th>{{cell}}</th>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                    <tr>
+
+                      <th scope="col">Total Quantity</th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col">{{total_quantity}}</th>
+                      <th scope="col"> -------- </th>
+
+                    </tr>
+                    <tr>
+
+                      <th scope="col">Grand Total</th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col">{{grand_total}} ETB</th>
+
+                    </tr>
+                    <tr>
+
+                      <th scope="col">VAT (15%)</th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col">{{VAT}} ETB</th>
+
+                    </tr>
+                    <tr>
+
+                      <th scope="col">Total Paid</th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col"> -------- </th>
+                      <th scope="col">{{transaction.Total_Amount}} ETB</th>
+
+                    </tr>
+
+                  </tbody>
+                </table>
+
+
+                <!-- Agent_order_id=models.OneToOneField(Agent_order, on_delete=models.CASCADE)
+                                date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+                                Total_Amount = models.FloatField(null=True) 
+                                Paid_status = models.CharField(max_length=200, null=True, choices=Paid_status)
+                                TransactionCode = models.CharField(max_length=200,null=True)
+                                MarchentId =  -->
+
+
+                <div id="transaction_table">
+                  <h5 class="card-title text-center">Payment Information</h5>
+                  <div>
+                    <hr class="mb-4">
+                    <span class="card-title">Order ID: </span>
+                    <span id="order_id" class="text-muted">{{transaction.TransactionCode}}</span>
+                  </div>
+                  <div>
+                    <span id="store" class="card-title">Requested Store: </span>
+                    <span id="store" class="text-muted">{{transaction.Agent_order_id.Store}}</span>
+                  </div>
+                  <div>
+                    <span class="card-title">Order Date: </span>
+                    <span id="order_date" class="text-muted">{{transaction.date_created|date:"Y-m-d"}}</span>
+                  </div>
+                  <div>
+                    <span class="card-title">Payment through: </span>
+                    <span id="payment_type" class="text-muted">YenePay</span>
+                  </div>
+                  <div>
+                    <span class="card-title">Total Paid </span>
+                    <strong id="total_paid" class="text-muted">{{transaction.Total_Amount}} ETB</strong>
+                  </div>
+                  <div>
+                    <span class="card-title">Approval status: </span>
+                    <span id="approval_status" class="text-muted">{{transaction.Agent_order_id.status}}</span>
+                  </div>
+                  <div>
+                    <span class="card-title">Schedule for: </span>
+                    <span id="approval_status" class="text-muted">{{transaction.scheduled_for|date:"d-m-Y"}} -
+                      {{transaction.scheduled_to|date:"d-m-Y"}}</span>
+                  </div>
+
+                </div>
+
+
+              </div>
+              <div class="text-end">
+                <button id="download_pdf" onclick="pdfDwnld()" type="button"
+                  class="btn btn-secondary btn-sm">Pdf</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</main><!-- End #main -->
+<script type="text/javascript">
+  function pdfDwnld() {
+    html2canvas(document.getElementById('transaction_table'), {
+      onrendered: function (canvas) {
+        var data = canvas.toDataURL();
+        var docDefinition = {
+          content: [{
+            image: data,
+            width: 500
+          }]
+        };
+        pdfMake.createPdf(docDefinition).download("Table.pdf");
+      }
+    });
+  }
+</script>
+{% endblock %}

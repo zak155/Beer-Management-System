@@ -1,0 +1,49 @@
+{% extends 'Customer/Customer-base.html' %}
+{% block content %}
+{% load static %}
+<main class="mt-5 pt-4">
+  <div class="container">
+    <section class="section dashboard mt-3 pt-3">
+      <div class="row">
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <form class="row g-3 needs-validation" action="{% url 'customer_order_summer' %}" method="POST">
+                {% csrf_token %}
+                <h5 class="card-title text-center">Order form</h5>
+                {% for product in all_product %}
+                <div class="col-md-6">
+                  <input type="number" min="4" class="form-control" name="{{product.Product_Name}}"
+                    id="{{product.Product_Name}}" placeholder="{{product.Product_Name}}" required>
+                  <div class="invalid-feedback">
+                    Minimum of 4 crates
+                  </div>
+                </div>
+                <br>
+                <br>
+                {% endfor %}
+            </div>
+            <hr class="mb-12">
+            <button id="checkout" class="btn btn-warning btn-md btn-block text-white" type="submit">Continue to check
+              out</button>
+            <hr class="mb-2 ">
+          </div>
+        </div>
+
+        </form><!-- End  of order form -->
+      </div>
+  </div>
+  </div>
+  <!-- order summary -->
+
+  <div class="col-lg-2">
+
+  </div>
+
+  </div>
+  </section>
+  </div>
+</main>
+
+{% endblock %}

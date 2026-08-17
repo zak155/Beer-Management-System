@@ -1,0 +1,129 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item">Users</li>
+                <li class="breadcrumb-item active">Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <!-- transaction details -->
+
+                    <!-- End transaction details -->
+                    <div class="card info-card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Order Information</h5>
+                            <hr class="mb-4">
+
+
+                            <table class="table table-border">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">unit price</th>
+                                        <th scope="col">quantity</th>
+                                        <th scope="col">Sub price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for row in data %}
+                                    <tr>
+                                        {% for cell in row %}
+                                        <th>{{cell}}</th>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    <tr>
+
+                                        <th scope="col">Total Quantity</th>
+                                        <th scope="col"> -------- </th>
+                                        <th scope="col">{{total_quantity}}</th>
+                                        <th scope="col"> -------- </th>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h5 class="card-title text-center">Payment Information</h5>
+                            <hr class="mb-4">
+                            <div>
+                                <span class="card-title">Order ID: </span>
+                                <span id="order_id" class="text-muted">{{transaction.TransactionCode}}</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Payment: </span>
+                                <span id="payment_type" class="text-muted">YenePay</span>
+                            </div>
+                            <div>
+                                <span class="card-title">Total Paid </span>
+                                <strong id="total_paid" class="text-muted">{{transaction.Total_Amount }}</strong>
+                            </div>
+                            <div>
+                                <span class="card-title">Approval status: </span>
+                                <span id="approval_status"
+                                    class="text-muted">{{transaction.Customer_order_id.status}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ffwweweweewf -->
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Assign Driver</h5>
+
+                        
+                        <form class="row g-3 needs-validation" method="POST" action="">
+                            {% csrf_token %}
+                            
+                            <!-- <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Drivers</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Drivers</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div> 
+                            </div> -->
+
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <label for="driver" class="form-label">Driver</label>   
+                                <select class="form-select" name="driver" id="driver">
+                                    {% for driver in drivers %}
+                                  <option value="{{driver.id}}">{{driver.Full_name}}</option>
+                                  {% endfor %}
+                                </select>
+                              </div>
+
+
+
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <button type="submit" class="btn btn-warning">Submit Form</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

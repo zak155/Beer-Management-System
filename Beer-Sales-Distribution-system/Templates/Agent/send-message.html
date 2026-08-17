@@ -1,0 +1,48 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Send Message</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Contact admin</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="col-xl-6">
+    <div class="card p-4">
+      <form action="" method="post" class="">
+        <div class="row gy-4">
+
+          <!-- <div class="col-md-6">
+            <input type="text" name="custname" id="custname" class="form-control" placeholder="Your Name" required>
+          </div> -->
+
+          <div class="col-md-6 ">
+            <input type="email" class="form-control" name="custemail" id="custemail" placeholder="Your Email" required>
+          </div>
+<!-- 
+          <div class="col-md-12">
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+          </div> -->
+
+          <div class="col-md-12">
+            <textarea class="form-control" name="message" id="message" rows="6" placeholder="Message" required></textarea>
+          </div>
+
+          <div class="col-md-12 text-center">
+
+            <button id="sendmessage" class="btn btn-warning btn-md btn-block text-white" type="submit">Send Message</button>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

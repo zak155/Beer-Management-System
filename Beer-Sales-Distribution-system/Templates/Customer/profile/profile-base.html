@@ -1,0 +1,69 @@
+{% extends 'Customer/Customer-base.html' %}
+{% block content %}
+{% load static %}
+
+ 
+    <section class="section p-5 mt-5">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+              {% if user.customer.profile_pic %}
+              <img style="height: 100px;width:100px;" src="{{user.customer.profile_pic.url}}" alt="Profile" >
+              {% endif %}
+              <h5 style="color: black;">{{user.first_name}} {{user.last_name}}</h5>
+              <h5>Company name</h5>
+              <h6>{{user.customer.Compan_name}}</h6>
+              <div class="social-links mt-2">
+                {% if user.admin.telegram and user.admin.telegram != 'None' %}
+                <a href="{{user.admin.telegram}}" class="telegram"><i class="bi bi-telegram"></i></a>
+                {% endif %}
+
+                {% if user.admin.facebook and user.admin.facebook != 'None' %}
+                <a href="{{user.admin.facebook}}" class="facebook"><i class="bi bi-facebook"></i></a>
+                {% endif %}
+
+                {% if user.admin.instagram and user.admin.instagram != 'None' %}
+                <a href="{{user.admin.instagram}}" class="instagram"><i class="bi bi-instagram"></i></a>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+        
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link " aria-current="page" href="{% url 'show_profile_customer' %}">Overview</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'edit_profile_customer' %}">Edit Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'change_password_customer' %}">Change Password</a>
+                </li>
+              
+               
+              </ul>
+              <div class="tab-content pt-2">
+                {% block profile %}
+
+                
+                {% endblock profile %}
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+{% endblock %}

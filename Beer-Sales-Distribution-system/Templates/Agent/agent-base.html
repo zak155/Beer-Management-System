@@ -1,0 +1,392 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>BGI Ethiopia</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/logo2.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/quill/quill.bubble.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/simple-datatables/style.css' %}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet">
+  {% block post %}
+
+</head>
+
+<body>
+
+  <!-- ===  ==== Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{% url 'agent_dashbord' %}" class="logo d-flex align-items-center">
+        <img src="{% static 'assets/img/logo3.png' %}" alt="">
+      </a>
+      <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
+
+
+        <li class="nav-item dropdown">
+
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-bell"></i>
+            <span class="badge bg-primary badge-number">4</span>
+          </a><!-- End Notification Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+            <li class="dropdown-header">
+              You have 4 new notifications
+              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-exclamation-circle text-warning"></i>
+              <div>
+                
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-x-circle text-danger"></i>
+              <div>
+                
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-check-circle text-success"></i>
+              <div>
+                
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="notification-item">
+              <i class="bi bi-info-circle text-primary"></i>
+              <div>
+                
+              </div>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            
+          </ul><!-- End Notification Dropdown Items -->
+        </li><!-- End Notification Nav -->
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+            <i class="bi bi-chat-left-text"></i>
+            <span class="badge bg-success badge-number">3</span>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
+            
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                
+                <div>
+                 
+                </div>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="{% static 'assets/img/messages-2.jpg' %}" alt="" class="rounded-circle">
+                
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li class="message-item">
+              <a href="#">
+                <img src="{% static 'assets/img/messages-3.jpg' %}" alt="" class="rounded-circle">
+                
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            
+
+          </ul><!-- End Messages Dropdown Items -->
+
+        </li><!-- End Messages Nav -->
+
+        <li class="nav-item dropdown pe-3">
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            {% if user.agent.profile_pic %}
+            <img src="{{user.agent.profile_pic.url}}" alt="Profile" class="rounded-circle">
+            {% endif %}
+            <span class="d-none d-md-block dropdown-toggle ps-2">{{user.first_name}} {{user.last_name}}</span>
+          </a><!-- End Profile Iamge Icon -->
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6>{{user.first_name}} {{user.last_name}}</h6>
+              <span>Company Agent</span>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'show_profile_agent' %}">
+                <i class="bi bi-gear"></i>
+                <span>Account Settings</span>
+              </a>
+            </li>
+
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul><!-- End Profile Dropdown Items -->
+        </li><!-- End Profile Nav -->
+
+      </ul>
+    </nav>
+
+  </header><!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+
+    <ul class="sidebar-nav" id="sidebar-nav">
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="{% url 'agent_dashbord' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <!-- customer orders -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#view-nav" href="{% url 'customer_order' %}">
+          <i class="bi bi-shop"></i><span>Customer orders</span>
+        </a>
+      </li>
+
+      <!-- make orders -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#make-order-nav" href="{% url 'agent_make_order' %}">
+          <i class="bi bi-cart-plus"></i><span>Make order</span>
+        </a>
+      </li>
+
+      <!--add customer -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#manage-cust-nav" href="{% url 'manage_customers' %}">
+          <i class="bi bi-people"></i><span>Manage Customers</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'manage_vehicles' %}">
+          <i class="bi bi-truck"></i><span>Manage vehicles</span>
+        </a>
+      </li>
+      
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'Deleted-account' %}">
+          <i class="bi bi-house"></i><span>Deleted Customer</span>
+        </a>
+      </li>
+
+
+      <!--add drivers -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#drivers-nav" href="{% url 'manage_drivers' %}">
+          <i class="ri-steering-2-line"></i><span>Manage drivers</span>
+        </a>
+      </li>
+
+      
+
+      <!--transactions -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#transactions-nav" href="{% url 'transactions' %}">
+          <i class="bi bi-currency-dollar"></i><span>Transactions</span>
+        </a>
+      </li>
+      <!--contact admin -->
+     
+
+    </ul>
+
+  </aside><!-- End Sidebar-->
+
+  <!-- ====== Main -->
+
+  {% block content %}
+
+  {% endblock %}
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="copyright">
+      &copy; Copyright <strong><span>BGI Ethiopia</span></strong>. All Rights Reserved
+    </div>
+
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center bg-warning">
+    <i class="bi bi-arrow-up-short"></i>
+  </a>
+  {% endblock %}
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/apexcharts/apexcharts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/chart.js/chart.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/echarts/echarts.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/quill/quill.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/simple-datatables/simple-datatables.js' %}"></script>
+  <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript"
+    src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/table2excel.js' %}"></script>
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+
+  <script>
+
+    function number_init(id) {
+      var string = document.getElementById(id).value;
+      let matchPattern = string.match(/\d+/g);
+      if (matchPattern != null) {
+        document.getElementById(id).style.borderColor = 'red';
+        document.getElementById('p' + id).innerHTML = 'only letters allowed';
+        document.getElementById('p' + id).removeAttribute('hidden')
+        document.getElementById('p' + id).style.color = 'red'
+
+      }
+      else {
+        document.getElementById(id).style.borderColor = '#d9d9d9';
+        document.getElementById('p' + id).hidden = true;
+
+      }
+    }
+    function phone(id) {
+      var string = document.getElementById(id).value;
+      if ((string[0] != '9' || string.length > 9 || (/[^0-9]/.test(string))) && string.length != 0) {
+        document.getElementById(id).style.borderColor = 'red';
+        document.getElementById('pp').innerHTML = 'phone number should start with 9,be 9 in length and only be letters';
+        document.getElementById('pp').removeAttribute('hidden')
+        document.getElementById('pp').style.color = 'red'
+
+      }
+      else {
+        document.getElementById(id).style.borderColor = '#d9d9d9';
+        document.getElementById('pp').hidden = true;
+
+      }
+
+
+
+    }
+
+    function letter_init(id) {
+      var tinno = document.getElementById(id).value;
+      if (!(/^[0-9]+$/.test(tinno)) && tinno != "") {
+        document.getElementById(id).style.borderColor = 'red';
+        document.getElementById('p' + id).innerHTML = 'only digits allowed';
+        document.getElementById('p' + id).removeAttribute('hidden')
+        document.getElementById('p' + id).style.color = 'red'
+
+      }
+      else {
+        document.getElementById(id).style.borderColor = '#d9d9d9';
+        document.getElementById('p' + id).hidden = true;
+
+      }
+    }
+
+    function add() {
+
+      var tinno = document.getElementById('tinno').style.borderColor;
+      var fn = document.getElementById('fn').style.borderColor;
+      var ln = document.getElementById('ln').style.borderColor;
+      var p1 = document.getElementById('phone1').style.borderColor;
+      var p2 = document.getElementById('phone2').style.borderColor;
+
+
+
+      if (p2 === 'red' || fn === 'red' || ln === 'red' || p1 === 'red' || ct === 'red' || tinno === 'red') {
+
+
+        document.getElementById('error').value = 'error';
+
+
+      }
+    }
+
+
+  </script>
+
+</body>
+{{ redirect_to_login_immediately }}
+
+</html>

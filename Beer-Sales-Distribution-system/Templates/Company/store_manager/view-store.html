@@ -1,0 +1,100 @@
+{% extends 'Company/store_manager/store_base.html' %}
+{% load static %}
+{% block content %}
+<!-- ====== Main -->
+
+<main class="mt-5 pt-4">
+  <div class="container">
+    <section class="section dashboard">
+      <div class="row">
+
+        <div class="col-lg-8">
+          <div class="row">
+
+            {% for key, value, img in data %}
+
+            <div class="col-lg-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">{{key}} beer</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <img width="80" src="{{img.url}}" alt="">
+                    </div>
+                    <div class="ps-3">
+                      <h2>available</h2>
+                      <strong>{{value}} crates</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+
+            <div class="card info-card customers-card">
+
+              <h5 class="card-title text-center">Recent store refills</h5>
+              <table class="table table-border datatable" id="available">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Refill date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{date_created}}
+                  {% for refile in refile_product %}
+                  <tr>
+                    <th>1</th>
+                    <td>{{refile.product}}</td>
+                    <td>{{refile.qunitiy}}</td>
+                    <td>{{refile.date_created}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card info-card sales-card">
+            <div class="card-body">
+              <hr>
+              <h5>Store name: <span class="card-title" id="store_name">{{spesific_store}}</span></h5>
+              <h5>Manager: <span class="card-title" id="st_manager">{{company_manager}}</span></h5>
+              <h5>Phone: <span class="card-title" id="stm_phone">{{company_manager.phone}}</span></h5>
+              <hr>
+
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <img width="100" src="{% static 'assets/img/crates.jpg' %}" alt="">
+                </div>
+                <div class="ps-3">
+                  <h5>Total</h5>
+                  <strong>{{Total}} crates</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {% if messages %}
+      {% for message in messages %}
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+      <script>
+        var m = "{{ message }}";
+        swal(m, "Perfect !", "success")
+      </script>
+      {% endfor %}
+      {% endif %}
+      {% endblock %}
+    </section>
+  </div>
+</main><!-- End #main -->

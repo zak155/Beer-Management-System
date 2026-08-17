@@ -1,0 +1,164 @@
+{% extends 'Company/company-base.html' %}
+{% load static %}
+{% block content%}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage Agents</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Agent Profile</li>
+      </ol>
+
+
+    </nav>
+
+  </div><!-- End Page Title -->
+
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-4">
+
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            {% if agent.profile_pic %}
+            <img src="{{agent.profile_pic.url}}" alt="agent">
+            {% endif %}
+            <h2>{{agent.Full_Name}}</h2>
+            <hr>
+            <p>Rating
+              <span class="ri-star-fill"></span>
+              <span class="ri-star-fill"></span>
+              <span class="ri-star-fill"></span>
+              <span class="ri-star-half-fill"></span>
+              <span class="ri-star-line"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8">
+        <div class="card">
+          <div class="card-body pt-3">
+
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="{% url 'agent-detail' agent.id %}">Agent Detail</a>
+              </li>
+              <li class="nav-item">
+
+                <a class="nav-link" href="{% url 'update_contrat' agent.id %}">Update Contract</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'remove_agent_page' agent.id %}">Remove Agent</a>
+              </li>
+
+            </ul>
+            <!-- Bordered Tabs -->
+            <div class="tab-content pt-2">
+              {% block agent_detile %}
+              <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                  <div class="col-lg-9 col-md-8">{{agent.Full_Name}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Email</div>
+                  <div class="col-lg-9 col-md-8">{{agent.user.email}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Phone</div>
+                  <div class="col-lg-9 col-md-8">{{agent.phone1}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Region</div>
+                  <div class="col-lg-9 col-md-8">{{agent.Region}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">City</div>
+                  <div class="col-lg-9 col-md-8">{{agent.city}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">TIN Number</div>
+                  <div class="col-lg-9 col-md-8">{{agent.TIN_NO}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">MarchentId</div>
+                  <div class="col-lg-9 col-md-8">{{agent.marchentId}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label">Agreement</div>
+
+                  <div class="col-lg-9 col-md-8">
+
+                    <a href="{{agent.agreement.url}}" class="text-dark">Agreement Paper</a>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label ">License</div>
+                  <div class="col-lg-9 col-md-8 ">
+                    <a href="{{agent.License.url}}" class="text-dark">License Paper</a>
+                  </div>
+                </div>
+              </div>
+
+              {% endblock %}
+            </div><!-- End Bordered Tabs -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction-Table -->
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Transactions</h5>
+
+          <!-- Table with stripped rows -->
+          <table class="table datatable">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Date</th>
+                <th scope="col">Payment</th>
+              </tr>
+            </thead>
+            <tbody>
+
+
+              {% for order in agent.agent_order_set.all %}
+              <tr>
+                <th scope="row">1</th>
+                <td>{{order.product}}</td>
+                <td>600</td>
+                <td>1,200,000</td>
+                <td>{{order.date_created}}</td>
+                <td>{{order.Payment_Opetion}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+</main>
+
+{% endblock %}

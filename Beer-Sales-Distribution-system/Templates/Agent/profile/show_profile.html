@@ -1,0 +1,79 @@
+{% extends 'Agent/profile/profile-base.html' %}
+{% load static %}
+
+{% block profile %}
+<div class="tab-pane fade show active profile-overview" id="profile-overview">
+  <h5 class="card-title">About</h5>
+  <p class="small fst-italic">{{admin.about}}
+  <h5 class="card-title">Profile Details</h5>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+    <div class="col-lg-9 col-md-8">{{admin.user.first_name}} {{admin.user.last_name}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">username</div>
+    <div class="col-lg-9 col-md-8">{{admin.user.username}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">City</div>
+    <div class="col-lg-9 col-md-8">{{admin.city}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Address</div>
+    <div class="col-lg-9 col-md-8">{{admin.address}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Phone 1</div>
+    <div class="col-lg-9 col-md-8">{{admin.phone1}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Phone 2</div>
+    <div class="col-lg-9 col-md-8">{{admin.phone2}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Facebook</div>
+    <div class="col-lg-9 col-md-8">{{admin.facebook}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Telegram</div>
+    <div class="col-lg-9 col-md-8">{{admin.telegram}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Instagram</div>
+    <div class="col-lg-9 col-md-8">{{admin.instagram}}</div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Email</div>
+    <div class="col-lg-9 col-md-8">{{user.email}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">TIN</div>
+    <div class="col-lg-9 col-md-8">{{admin.TIN_NO}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Agreement</div>
+    <div class="col-lg-9 col-md-8">{{admin.agreement}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3 col-md-4 label">Marchent Id</div>
+    <div class="col-lg-9 col-md-8">{{admin.marchentId}}</div>
+  </div>
+
+
+</div>
+{% endblock %}

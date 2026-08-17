@@ -1,0 +1,84 @@
+{% extends 'Company/finance/finance_base.html' %}
+{% load static %}
+{% block content %}
+<!-- ====== Main -->
+<main class="mt-5 pt-4">
+  <div class="container">
+    <section class="section dashboard">
+      <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="text-end">
+              <button id="download_excel" type="button" class="btn btn-secondary btn-sm">Excel</button>
+              <button id="download_pdf" onclick="pdfDownload()" type="button"
+                class="btn btn-secondary btn-sm">Pdf</button>
+            </div>
+            <br>
+            <br>
+
+            <div class="card info-card customers-card">
+              <h5 class="card-title">Approved orders History</h5>
+              <table class="table table-border" id="approval_history_tbl">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+
+                    <th scope="col">Date</th>
+                    <th scope="col">Agent</th>
+                    <th scope="col">Order Code</th>
+                    <th scope="col">Total paid</th>
+                    <th scope="col">Approval Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for transaction in all_tranaction %}
+
+                  {% if transaction.Agent_order_id.status == 'Approved' %}
+
+                  <tr>
+                    <th>{{transaction.id}}</th>
+                    <td>{{transaction.date_created}}</td>
+                    <td>{{transaction.Agent_order_id.Agent}}</td>
+                    <td>{{transaction.TransactionCode}}</td>
+                    <td>{{transaction.Total_Amount}}</td>
+                    <td><span class="badge bg-success">Approved</span></td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div><!-- End Right side columns -->
+
+  </div>
+  </section>
+  </div>
+</main><!-- End #main -->
+<script>
+  document.getElementById('download_excel').addEventListener('click', function () {
+    var table2excel = new Table2Excel();
+    table2excel.export(document.querySelectorAll("#approval_history_tbl"));
+  });  
+</script>
+
+<script type="text/javascript">
+  function pdfDownload() {
+    html2canvas(document.getElementById('approval_history_tbl'), {
+      onrendered: function (canvas) {
+        var data = canvas.toDataURL();
+        var docDefinition = {
+          content: [{
+            image: data,
+            width: 500
+          }]
+        };
+        pdfMake.createPdf(docDefinition).download("Table.pdf");
+      }
+    });
+  }
+</script>
+{% endblock %}

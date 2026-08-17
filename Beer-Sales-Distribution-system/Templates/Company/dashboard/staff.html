@@ -1,0 +1,55 @@
+  <!-- ====== Main -->
+  {% extends 'Company/dashboard/admin.html'%}
+  {% block admin%}
+    
+  
+       
+                <div class="card-body">
+                    <h5 class="card-title">Staff</h5>
+                  <!-- Table with stripped rows -->
+                  
+                  <table class="table datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Position</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                   {% for staff in staff_finance_manager %}
+                      <tr>
+                        <th scope="row">1</th>
+                        <td><a href="{% url 'staff-detail' staff.id  staff.staff %}">{{staff.user.username}}</a></td>
+                        <td>{{staff.staff}}</td>
+                        <td>{{staff.date_created }}</td>
+                        <td>{{staff.phone}}</td>
+                        <td><a href="{% url 'staff-detail' staff.id staff.staff %}">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a></td>
+                      </tr>
+                  {% endfor %}     
+                  {% for staff in staff_company_store_manager %}
+                      <tr>
+                        <th scope="row">1</th>
+                        <td><a href="{% url 'staff-detail' staff.id staff.staff %}">{{staff.user.username}}</a></td>
+                        <td>{{staff.staff}}</td>
+                        <td>{{staff.date_created }}</td>
+                        <td>{{staff.phone}}</td>
+                        <td>  <a href="{% url 'staff-detail' staff.id staff.staff %}">
+                          <h3><i class="bi bi-eye"></i></h3>
+                        </a></td>
+                      </tr>
+                  {% endfor %}             
+                    </tbody>
+                  </table>
+                  <!-- End Table with stripped rows -->
+    
+        
+              </div>
+  
+  {% endblock %}
+    

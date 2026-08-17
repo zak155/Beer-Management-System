@@ -1,0 +1,43 @@
+{% extends 'Customer/Customer-base.html'%}
+{% load static %}
+{% block content %}
+
+<section class="section dashboard m-5 pt-5">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">My-Transaction</h5>
+
+      <!-- Default Table -->
+      <table class="table table-border datatable">
+        <thead>
+          <tr>
+
+            <th scope="col">Date</th>
+            <th scope="col">Order Code</th>
+            <th scope="col">Total Paid</th>
+            <th scope="col">Status</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for trans,order in data %}
+          <tr>
+
+            <td>{{trans.date_created}}</td>
+            <td>{{trans.TransactionCode}}</td>
+            <td>{{trans.Total_Amount}}</td>
+            {% if order.status == 'Delivered' %}
+            <td><span class="badge bg-success">Recived</span></td>
+            {% endif%}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- End Default Table Example -->
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

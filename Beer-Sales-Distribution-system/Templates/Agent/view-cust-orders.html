@@ -1,0 +1,82 @@
+{% extends 'Agent/agent-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Customer orders</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Pending orders</li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="col">
+    <div class="card recent-sales overflow-auto">
+
+      <div class="card-body">
+        <h5 class="card-title">Recent <span>| customer orders </span></h5>
+
+        <table class="table table-border datatable">
+          <thead>
+            <tr>
+
+              <th scope="col">Date</th>
+              <th scope="col">Customer</th>
+              <th scope="col">Address</th>
+              <th scope="col">House No.</th>
+              <th scope="col">Order Code</th>
+              <th scope="col">Status</th>
+              <th scope="col">Check silp</th>
+              <th scope="col">Driver</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <!-- sdfsdfsdfs -->
+            {%for row1 , row2 in data %}
+
+
+            <tr>
+
+              <td>{{row1.date_created}}</td>
+
+              <td class="text-primary">{{row1.Customer}}</td>
+              <td>{{row1.Customer.Address}}</td>
+              <td>{{row1.Customer.House_No}}</td>
+              <td>{{row2.TransactionCode}}</td>
+
+
+              {% if row1.status == 'Pending' %}
+              <td><span class="badge bg-warning">Pending</span></td>
+              {% elif row1.status == 'Not Recived' %}
+              <td><span class="badge bg-danger">Not delivered</span></td>
+              {% elif row1.status == 'Delivered' %}
+              <td><span class="badge bg-success">delivered</span></td>
+              {% endif %}
+              <td><a href="{% url 'customer_order_detail' row1.id %}" class="btn btn-sm btn-primary">View</a></td>
+
+               {% if row1.driver_status == 'Assigned' %}
+              <td><span class="badge bg-success">Assigned</span></td>
+              {% elif row1.driver_status == 'Not Assigned' %}
+              <td><span class="badge bg-danger">Not Assigned</span></td>
+              {% endif %}
+
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+  </div>
+  </section>
+</main>
+{% endblock %}
+rewrite and debud

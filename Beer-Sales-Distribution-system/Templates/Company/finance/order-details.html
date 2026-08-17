@@ -1,0 +1,105 @@
+{% extends 'Company/finance/finance_base.html' %}
+{% load static %}
+{% block content %}
+  <!-- ====== Main -->
+  <main  class="mt-5 pt-4">
+      <div class="container">
+        <section class="section dashboard">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="row">
+                          <div class="card info-card">
+                              <div class="card-body">
+                                <h5 class="card-title text-center">Order Information</h5>
+                                <hr class="mb-4"> 
+                                
+                      
+                                    <!-- Table with stripped rows -->
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                         
+                                          <th scope="col">Product</th>
+                                          <th scope="col">unit price</th>
+                                          <th scope="col">quantity</th>
+                                          <th scope="col">Sub price</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                      
+                                        {% for row in data %}
+                                      <tr>
+                                        {% for cell in row %}
+                                        <th>{{cell}}</th> 
+                                        {% endfor %}
+                                      </tr>
+                                      {% endfor %}
+                                      <tr>
+                                          
+                                            <th scope="col">Total Quantity</th>
+                                            <th scope="col">  --------  </th>
+                                            <th scope="col" >{{total_quantity}}</th>
+                                            <th scope="col">  --------  </th>
+                                         
+                                      </tr>
+                                      <tr>
+                                
+                                        <th scope="col">Grand Total</th>
+                                        <th scope="col">  --------  </th>
+                                        <th scope="col">  --------  </th>
+                                        <th scope="col" >{{grand_total}} ETB</th>
+                                     
+                                  </tr>
+                                    </tbody>
+                                    </table>
+                                    <!-- End Table with stripped rows -->
+                      
+                                 
+
+
+                                  <h5 class="card-title text-center ">Payment Information</h5>
+                                
+                              <div>
+                                <hr class="mb-4"> 
+                                  <span class="card-title">Order ID: </span>
+                                  <span id="order_id" class="text-muted">12345</span>
+                              </div>
+                              <div>
+                                  <span id="store" class="card-title">Requested Store: </span>
+                                  <span id="store" class="text-muted">Awasa</span>
+                              </div>
+                              <div>
+                                  <span class="card-title">Order Date: </span>
+                                  <span id="order_date" class="text-muted">12-6-2022</span>
+                              </div>
+                              <div>
+                                  <span class="card-title">Payment through: </span>
+                                  <span id="payment_type" class="text-muted">YenePay</span>
+                              </div>
+                              <div>
+                                  <span class="card-title">Total Paid </span>
+                                  <strong id="total_paid" class="text-muted">1,250,400 ETB</strong>
+                              </div>
+                              <div>
+                                  <span class="card-title">Approval status: </span>
+                                  <span id="approval_status" class="text-muted">Approved</span>
+                              </div>
+                              <div class="text-end">
+                                <button type="button" class="btn btn-warning">
+                                  <a href="{% url 'finance_admin_home' %}">Back</a>
+                                </button>
+                              </div>
+                              </div>  
+                          </div>
+                 
+                  <!-- End transaction details -->
+              
+                </div>
+              </div>
+          
+            </div>
+          </section>
+      </div>
+  </main><!-- End #main -->
+
+ {% endblock %}

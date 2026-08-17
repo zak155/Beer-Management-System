@@ -1,0 +1,132 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Driver Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+                <li class="breadcrumb-item active">Driver Profile</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        {% if drive.profile_pic %}
+                        <img src="{{drive.profile_pic.url}}" alt="Profile" class="rounded-circle">
+                        {% endif %}
+                        <h2>{{drive.Full_name}}</h2>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-xl-8">
+
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab"
+                                    data-bs-target="#profile-overview">Overview</button>
+                            </li>
+
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab"
+                                    data-bs-target="#profile-edit">update</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content pt-2">
+
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+                                <h5 class="card-title">Profile Details</h5>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-9 col-md-8">{{drive.Full_name}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Job</div>
+                                    <div class="col-lg-9 col-md-8">Car Driver</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Vihecle</div>
+                                    <div class="col-lg-9 col-md-8">{{drive.vehicle}}</div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Status</div>
+                                    <div class="col-lg-9 col-md-8"> {{drive.Status}} </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Salary</div>
+                                    <div class="col-lg-9 col-md-8"> {{drive.salary}} </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 label">Phone</div>
+                                    <div class="col-lg-9 col-md-8">{{drive.phone1}}</div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                                <!-- Profile Edit Form -->
+                                <form method="POST">
+                                    {% csrf_token %}
+
+                                    <div class="row mb-3">
+                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Salary</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="Salary" type="text" class="form-control"
+                                                value="{{drive.salary}}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Vihecle</label>
+                                        <div class="col-md-8 col-lg-9">
+
+                                            <select name="vihecle" class="form-select" id="select" required>
+                                                {% for vihecle in all_vechil%}
+                                                <option value="{{vihecle.vichel_No}}">{{vihecle.vichel_No}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Please select a valid Vihecle.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-warning">Save Changes</button>
+                                    </div>
+                                </form><!-- End Profile Edit Form -->
+
+                            </div>
+
+
+                        </div><!-- End Bordered Tabs -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

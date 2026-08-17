@@ -1,0 +1,80 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+{% load static %}
+
+    <div class="container mt-5 pt-5">
+      <section class="section ">
+          <div class="row"> 
+            <div class="col-lg-3">
+                </div>
+           <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">Order summary</h5>
+                    
+                     <form action="https://test.yenepay.com/" method="post">
+                       {% csrf_token %}
+                       
+                       {% for x, y in obj.items %}
+                            <input type="hidden" name="{{ x }}" value="{{ y }}">
+                        {% endfor %}
+                        {% for s in cart.cartitems %}
+                            {% with sc=forloop.counter0 %}
+                                {% for i, j in s.items %}
+                                    <input type="hidden" name="Items[{{sc}}].{{i}}" value="{{j}}">
+                                {% endfor %}
+                            {% endwith %}
+                        {% endfor %}
+
+                        <table class="table table-border">
+                          <thead>
+                            <tr>
+                              <th scope="col">Product</th>
+                              <th scope="col">Unit-Price</th>
+                              <th scope="col">Quantity</th>
+                              <th scope="col">Sub-Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for product, arry1, arry2  in mylist %}
+                              
+                            <tr>
+                              <th>{{product}}</th> 
+                              <th>{{product.Price_in_creates}}</th> 
+                              <th>{{arry1}}</th> 
+                              <th>{{arry2}}</th> 
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                
+                                  <th scope="col">Total Quantity</th>
+                                  <th scope="col">  --------  </th>
+                                  <th scope="col" class="text-danger">{{q}}</th>
+                                  <th scope="col">  --------  </th>
+                               
+                            </tr>
+                            <tr>
+                                
+                              <th scope="col">Grand Total</th>
+                              <th scope="col">  --------  </th>
+                              <th scope="col">  --------  </th>
+                              <th scope="col" class="text-danger">{{tl}} ETB</th>
+                           
+                        </tr>
+                          </tbody>
+                        </table>
+    
+                    <div class="d-grid gap-2 mt-3">
+                      <button class="btn btn-warning" type="submit">YenePay</button>
+                    </div>
+      
+                 
+                </form>
+                </div>
+</div>
+</div>
+</section>
+</div>
+
+{% endblock %}    
+    

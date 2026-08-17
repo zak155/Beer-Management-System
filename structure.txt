@@ -1,0 +1,144 @@
++---Account
+|   +---migrations
+|   |   \---__pycache__
+|   \---__pycache__
++---Agent
+|   +---migrations
+|   |   \---__pycache__
+|   \---__pycache__
++---BGI
+|   \---__pycache__
++---Company
+|   +---migrations
+|   |   \---__pycache__
+|   \---__pycache__
++---Customer
+|   +---migrations
+|   |   \---__pycache__
+|   \---__pycache__
++---File
+|   +---Agreement
+|   +---License
+|   +---Product_img
+|   +---Profile
+|   \---vichel_pic
++---node_modules
+|   +---es6-object-assign
+|   |   \---dist
+|   +---promise-polyfill
+|   |   \---test
+|   \---sweetalert
+|       +---dist
+|       \---typings
+|           \---modules
+|               +---class-list
+|               +---init
+|               +---markup
+|               \---options
++---static
+|   +---ager
+|   +---assets
+|   |   +---css
+|   |   +---img
+|   |   +---js
+|   |   \---vendor
+|   |       +---apexcharts
+|   |       |   \---locales
+|   |       +---bootstrap
+|   |       |   +---css
+|   |       |   \---js
+|   |       +---bootstrap-icons
+|   |       |   \---fonts
+|   |       +---boxicons
+|   |       |   +---css
+|   |       |   \---fonts
+|   |       +---chart.js
+|   |       |   \---chunks
+|   |       +---echarts
+|   |       |   \---extension
+|   |       +---php-email-form
+|   |       +---quill
+|   |       +---remixicon
+|   |       +---simple-datatables
+|   |       \---tinymce
+|   |           +---icons
+|   |           |   \---default
+|   |           +---plugins
+|   |           |   +---advlist
+|   |           |   +---anchor
+|   |           |   +---autolink
+|   |           |   +---autoresize
+|   |           |   +---autosave
+|   |           |   +---bbcode
+|   |           |   +---charmap
+|   |           |   +---code
+|   |           |   +---codesample
+|   |           |   +---colorpicker
+|   |           |   +---contextmenu
+|   |           |   +---directionality
+|   |           |   +---emoticons
+|   |           |   |   \---js
+|   |           |   +---fullpage
+|   |           |   +---fullscreen
+|   |           |   +---help
+|   |           |   +---hr
+|   |           |   +---image
+|   |           |   +---imagetools
+|   |           |   +---importcss
+|   |           |   +---insertdatetime
+|   |           |   +---legacyoutput
+|   |           |   +---link
+|   |           |   +---lists
+|   |           |   +---media
+|   |           |   +---nonbreaking
+|   |           |   +---noneditable
+|   |           |   +---pagebreak
+|   |           |   +---paste
+|   |           |   +---preview
+|   |           |   +---print
+|   |           |   +---quickbars
+|   |           |   +---save
+|   |           |   +---searchreplace
+|   |           |   +---spellchecker
+|   |           |   +---tabfocus
+|   |           |   +---table
+|   |           |   +---template
+|   |           |   +---textcolor
+|   |           |   +---textpattern
+|   |           |   +---toc
+|   |           |   +---visualblocks
+|   |           |   +---visualchars
+|   |           |   \---wordcount
+|   |           +---skins
+|   |           |   +---content
+|   |           |   |   +---dark
+|   |           |   |   +---default
+|   |           |   |   +---document
+|   |           |   |   \---writer
+|   |           |   \---ui
+|   |           |       +---oxide
+|   |           |       |   \---fonts
+|   |           |       \---oxide-dark
+|   |           |           \---fonts
+|   |           \---themes
+|   |               +---mobile
+|   |               \---silver
+|   \---forms
+\---Templates
+    +---Account
+    +---Agent
+    |   \---profile
+    +---Company
+    |   +---advertisments
+    |   +---agents
+    |   +---dashboard
+    |   +---finance
+    |   +---product
+    |   +---profile
+    |   +---region
+    |   +---report
+    |   +---staffs
+    |   +---store
+    |   \---store_manager
+    \---Customer
+        \---profile

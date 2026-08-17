@@ -1,0 +1,96 @@
+{% extends 'Agent/agent-base.html' %}
+{% load static %}
+{% block content %}
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Manage drivers</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">My drivers</li>
+      </ol>
+      <div class="text-end">
+        <a href="{% url 'add_driver' %}" class="item-end">
+          <button type="button" class="btn btn-sm rounded-pill btn-warning"><i class="bi bi-plus me-1"></i>Add
+            driver</button>
+        </a>
+      </div>
+    </nav>
+  </div><!-- End Page Title -->
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+          <!-- customers view -->
+          {% if messages %}
+          {% for mess in messages %}
+          {% if mess.tags == "success" %}
+          <div class="alert alert-success" role="alert">
+            {{mess}}
+          </div>
+          {% elif mess.tags == "error" %}
+          <div class="alert alert-danger" role="alert">
+            {{mess}}
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          <div class="col">
+
+            
+
+
+
+
+            <div class="card recent-sales overflow-auto"></div>
+            <div class="card-body">
+              <table class="table table-border datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Driver</th>
+                    <th scope="col">Vehicle</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View</th>
+                    <th scope="col">Remove</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for driver in all_drive %}
+                  <tr>
+                    <th>1</th>
+                    <td><a href="#">{{driver.Full_name}}</a></td>
+                    {% if driver.vehicle %}
+                    <td>{{driver.vehicle}}</a></td>
+                    {% else %}
+                    <td> TBA</a></td>
+                    {% endif %}
+                    <td>{{driver.phone1}}</td>
+                    <td>{{driver.Status}}</td>
+                    <td>
+                      <a href="{% url 'view_drivers_profile' driver.id %}">
+                        <h3><i class="bi bi-eye"></i></h3>
+                      </a>
+                    </td>
+                    <td>
+                      <a href="{% url 'delete_drivers' driver.id %}">
+                        <h3 class="text-danger"><i class="bi bi-trash"></i></h3>
+                      </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- End Recent Sales -->
+
+      </div>
+    </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

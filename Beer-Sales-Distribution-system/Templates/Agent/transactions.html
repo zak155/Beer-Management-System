@@ -1,0 +1,108 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+
+<!-- Main page -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Transactions</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">My transactions</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+
+          <div class="text-end">
+            <button id="download_excel" type="button" class="btn btn-secondary btn-sm">Excel</button>
+            <button id="download_pdf" onclick="pdfDwnld()" type="button" class="btn btn-secondary btn-sm">Pdf</button>
+          </div>
+          <br>
+          <br>
+          <!-- transaction view -->
+          <div class="col">
+            <div class="card recent-sales overflow-auto">
+
+              <div class="card-body">
+
+                <table id="transaction_table" class="table table-border datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+
+                      <th scope="col">Date</th>
+                      <th scope="col">Order Code</th>
+                      <th scope="col">Total paid</th>
+                      <th scope="col">Marchent Id</th>
+                      <th scope="col">Payment</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Schedule</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    {% for transaction in all_transaction %}
+                    <tr>
+                      <th>1</th>
+                      <td><a href="{% url 'transaction-detail' transaction.id %}">{{transaction.date_created}}</a></td>
+                      <td>{{transaction.TransactionCode}}</td>
+                      <td>{{transaction.Total_Amount}}</td>
+                      <td>{{transaction.MarchentId}}</td>
+                      <td>{{transaction.Paid_status}}</td>
+                      {% if transaction.Agent_order_id.status == 'Pending' %}
+                      <td><span class="badge bg-warning">Pending</span></td>
+                      {% elif transaction.Agent_order_id.status == 'Approved' %}
+                      <td><span class="badge bg-primary">Approved</span></td>
+                      {% elif transaction.Agent_order_id.status == 'Recived' %}
+                      <td><span class="badge bg-success">Recived</span></td>
+                      {% elif transaction.Agent_order_id.status == 'Reject' %}
+                      <td><span class="badge bg-danger">Rejected</span></td>
+                      {% endif %}
+                      {% if transaction.scheduled_for and transaction.scheduled_to %}
+                      <td> {{transaction.scheduled_for|date:"d-m-Y"}} - {{transaction.scheduled_to|date:"d-m-Y"}}</td>
+                      {% else %}
+                      <td><span class="badge bg-warning">Unscheduled</span></td>
+                      {% endif %}
+                    </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Recent Sales -->
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+  document.getElementById('download_excel').addEventListener('click', function () {
+    var table2excel = new Table2Excel();
+    table2excel.export(document.querySelectorAll("#transaction_table"));
+  });  
+</script>
+
+<script type="text/javascript">
+  function pdfDwnld() {
+    html2canvas(document.getElementById('transaction_table'), {
+      onrendered: function (canvas) {
+        var data = canvas.toDataURL();
+        var docDefinition = {
+          content: [{
+            image: data,
+            width: 500
+          }]
+        };
+        pdfMake.createPdf(docDefinition).download("Table.pdf");
+      }
+    });
+  }
+</script>
+{% endblock %}

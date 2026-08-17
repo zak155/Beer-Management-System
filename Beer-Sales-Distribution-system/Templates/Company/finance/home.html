@@ -1,0 +1,79 @@
+{% extends 'Company/finance/finance_base.html' %}
+{% load static %}
+{% block content %}
+  <!-- ====== Main -->
+  <main  class="mt-5 pt-4">
+      <div class="container">
+        <section class="section dashboard">
+            <div class="row">
+              <!-- Left side columns -->
+              <div class="col-lg-12">
+                <div class="row">
+               
+                  <div class="card info-card customers-card">
+                    <h5 class="card-title">Available in store</h5>
+                    <table class="table table-border " id="approve_orders">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Agent</th>
+                          <th scope="col">Order Code</th>
+                          <th scope="col">Total paid</th>
+                         
+                          <th scope="col">Approveal Status</th>
+                          <th scope="col">View</th>
+                          <th scope="col">Approve</th>
+                          <th scope="col">Reject</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                       
+                        {% for transaction in all_tranaction %}
+                        {% if transaction.Agent_order_id.status == 'Pending'  %}
+                        
+                        <tr>
+                          <th>{{transaction.id}}</th> 
+                          <td>{{transaction.date_created}}</td>
+                          <td>{{transaction.Agent_order_id.Agent}}</td>
+                          <td>{{transaction.TransactionCode}}</td>
+                          <td>{{transaction.Total_Amount}}</td>
+                          <td><span class="badge bg-warning">{{transaction.Agent_order_id.status}}</span></td>
+                          <td>
+                            
+                            <a href="{% url 'check_slip_view' transaction.id %}">
+
+                              <h3 class="text-center"> <i class="bi bi-eye"></i></h3>
+                            
+                            </a>  
+                          
+                          </td>
+                          <td>
+                            <a href="{% url 'approve-order' transaction.id %}">
+                              <h4 class="text-center"><i class="bi bi-check-circle"></i></h4>
+                            </a>
+                          </td>
+                          <td>
+                            <a href="#">
+                              <h4 class="text-center"><i class="bi bi-x-circle"></i></h4>
+                            </a>
+                          </td>
+                        </tr>
+                         {% endif %}
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>   
+          </div>
+        </div>
+        <!-- payment detail modal -->
+        
+        
+      </section>
+    </div>
+  </main><!-- End #main -->
+
+ {% endblock %}

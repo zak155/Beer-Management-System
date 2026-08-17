@@ -1,0 +1,163 @@
+{% extends 'Agent/agent-base.html' %}
+{% block content %}
+{% load static %}
+<!-- ====== Main -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Products in stock</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'agent_dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">View stock</li>
+      </ol>
+    </nav>
+  </div>
+  
+    <section class="section dashboard">
+      <div class="row">
+
+
+        <div class="col-lg-8">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Castle beer</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <img width="80" src="assets/img/castlebeer.jpg" alt="">
+                    </div>
+                    <div class="ps-3">
+                      <h2>available</h2>
+                      <strong>600,000</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Doppel</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <img width="80" src="assets/img/Doppel.jpeg" alt="">
+                    </div>
+                    <div class="ps-3">
+                      <h2>availabe</h2>
+                      <strong>400,000</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Sen'q malt</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <img width="80" src="assets/img/Sen'q.jpeg" alt="">
+                    </div>
+                    <div class="ps-3">
+                      <h2>availabe </h2>
+                      <strong>500,000</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">St. George beer</h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <img width="80" src="assets/img/sanjaw.jpeg" alt="">
+                    </div>
+                    <div class="ps-3">
+                      <h2>available</h2>
+                      <strong>1,000,000</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="card info-card sales-card">
+            <div class="card-body">
+              <form class="row g-3 needs-validation" novalidate>
+
+                <div class="mt-5">
+                  <select class="form-select" id="product_type">
+                    <option value="1">St. George beer</option>
+                    <option value="2">Doppel beer</option>
+                    <option value="3">Castle beer</option>
+                    <option value="4">Sen'q malt</option>
+                  </select>
+                </div>
+
+                <div class="">
+                  <label for="amount" class="form-label">Amount</label>
+                  <input type="number" name="amount" class="form-control" id="amount" required>
+                  <div class="invalid-feedback">Please, provide amount!</div>
+                </div>
+                <div class="">
+                  <button onclick="validation()" class="btn btn-warning text-white w-100" type="submit">Add</button>
+                </div>
+              </form>
+              <h5 class="card-title">Amount in stock</h5>
+              <div class="d-flex align-items-center">
+                <img width="90" src="{% static 'assets/img/crates.jpg' %}" alt="">
+                <div class="ps-3">
+                  <strong>600,000</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card info-card customers-card">
+          <h5 class="card-title text-center">Recent store refills</h5>
+          <table class="table table-border datatable" id="available">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Refill date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>1</th>
+                <td>Castle</td>
+                <td>6000</td>
+                <td>12-6-2022</td>
+              </tr>
+              <tr>
+                <th>1</th>
+                <td>Castle</td>
+                <td>6000</td>
+                <td>12-6-2022</td>
+              </tr>
+              <tr>
+                <th>1</th>
+                <td>Castle</td>
+                <td>6000</td>
+                <td>12-6-2022</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+  </div>
+  </section>
+  </div>
+</main><!-- End #main -->
+
+{% endblock %}

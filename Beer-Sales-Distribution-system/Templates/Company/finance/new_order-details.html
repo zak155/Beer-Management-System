@@ -1,0 +1,120 @@
+{% extends 'Company/finance/finance_base.html' %}
+{% load static %}
+{% block content %}
+  <!-- ====== Main -->
+  <main  class="mt-5 pt-4">
+      <div class="container">
+        <section class="section dashboard">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="row">
+                          <div class="card info-card">
+                              <div class="card-body">
+                                <h5 class="card-title text-center">Order Information</h5>
+                                <hr class="mb-4"> 
+                                <table class="table table-striped">
+                                  <thead>
+                                    <tr>
+                                     
+                                      <th scope="col">Product</th>
+                                      <th scope="col">unit price</th>
+                                      <th scope="col">quantity</th>
+                                      <th scope="col">Sub price</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                  
+                                    {% for row in data %}
+                                  <tr>
+                                    {% for cell in row %}
+                                    <th>{{cell}}</th> 
+                                    {% endfor %}
+                                  </tr>
+                                  {% endfor %}
+                                  <tr>
+                                      
+                                        <th scope="col">Total Quantity</th>
+                                        <th scope="col">  --------  </th>
+                                        <th scope="col" >{{total_quantity}}</th>
+                                        <th scope="col">  --------  </th>
+                                     
+                                  </tr>
+                                  <tr>
+                            
+                                    <th scope="col">Grand Total</th>
+                                    <th scope="col">  --------  </th>
+                                    <th scope="col">  --------  </th>
+                                    <th scope="col" >{{grand_total}} ETB</th>
+                                 
+                                  </tr>
+                                  <tr>
+                            
+                                    <th scope="col">VAT (15%)</th>
+                                    <th scope="col">  --------  </th>
+                                    <th scope="col">  --------  </th>
+                                    <th scope="col" >{{VAT}} ETB</th>
+                                 
+                                  </tr>
+                                  <tr>
+                            
+                                    <th scope="col">Total Paid</th>
+                                    <th scope="col">  --------  </th>
+                                    <th scope="col">  --------  </th>
+                                    <th scope="col" >{{transaction.Total_Amount}} ETB</th>
+                                 
+                                  </tr>
+                                  
+                                </tbody>
+                                </table>
+
+
+                                <!-- Agent_order_id=models.OneToOneField(Agent_order, on_delete=models.CASCADE)
+                                date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+                                Total_Amount = models.FloatField(null=True) 
+                                Paid_status = models.CharField(max_length=200, null=True, choices=Paid_status)
+                                TransactionCode = models.CharField(max_length=200,null=True)
+                                MarchentId =  -->
+
+
+
+                                  <h5 class="card-title text-center">Payment Information</h5>
+                                
+                              <div>
+                                <hr class="mb-4"> 
+                                  <span class="card-title">Order ID: </span>
+                                  <span id="order_id" class="text-muted">{{transaction.TransactionCode}}</span>
+                              </div>
+                              <div>
+                                  <span id="store" class="card-title">Requested Store: </span>
+                                  <span id="store" class="text-muted">{{transaction.Agent_order_id.Store}}</span>
+                              </div>
+                              <div>
+                                  <span class="card-title">Order Date: </span>
+                                  <span id="order_date" class="text-muted">{{transaction.date_created}}</span>
+                              </div>
+                              <div>
+                                  <span class="card-title">Payment through: </span>
+                                  <span id="payment_type" class="text-muted">YenePay</span>
+                              </div>
+                              <div>
+                                  <span class="card-title">Total Paid </span>
+                                  <strong id="total_paid" class="text-muted">{{transaction.Total_Amount}} ETB</strong>
+                              </div>
+                              <div>
+                                  <span class="card-title">Approval status: </span>
+                                  <span id="approval_status" class="text-muted">{{transaction.Agent_order_id.status}}</span>
+                              </div>
+                              </div>  
+                          </div>
+                 
+                  <!-- End transaction details -->
+              
+                </div>
+              </div>
+          
+            </div>
+          </section>
+      </div>
+  </main><!-- End #main -->
+
+ {% endblock %}

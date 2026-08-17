@@ -1,0 +1,52 @@
+{% extends 'Customer/Customer-base.html'%}
+{% load static %}
+{% block content %}
+<main class="mt-5 pt-4">
+  <div class="container">
+<section class="section dashboard mt-3 pt-3">
+  <div class="card">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">Not Recived Transaction</h5>
+
+      <!-- Default Table -->
+      <table class="table table-border datatable">
+        <thead>
+          <tr>
+
+            <th scope="col">Date</th>
+            <th scope="col">Order Code</th>
+            <th scope="col">Total Paid</th>
+            <th scope="col">Status</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for trans,order in data %}
+          <tr>
+
+            <td>{{trans.date_created}}</td>
+            <td>{{trans.TransactionCode}}</td>
+            <td>{{trans.Total_Amount}}</td>
+            {% if order.status == 'Not Recived' %}
+            <td><span class="badge bg-danger">Not Recived</span></td>
+            {% endif%}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- End Default Table Example -->
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+{% endblock %}

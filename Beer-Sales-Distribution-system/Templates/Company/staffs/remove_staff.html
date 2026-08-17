@@ -1,0 +1,11 @@
+{% extends 'Company/staffs/staff-detail.html'%}
+{% block staff %}
+  
+<div class="alert alert-danger pr-5" role="alert">
+  <h4 class="alert-heading">Are you sure?</h4>
+  <p>Do you want to delete {{staff_detail.staff}} {{staff_detail.user.first_name}} {{staff_detail.user.last_name}}?</p>
+  <hr>
+  <a href="{% url 'staff-detail' staff_detail.id staff_detail.staff %}" class="btn btn-info btn-sm text-white">Cancel</a>
+  <a href="{% url 'staff_remove_page' staff_detail.id staff_detail.staff %}"class="btn btn-danger btn-sm text-white">Ok</a>
+</div>
+{% endblock staff %}

@@ -1,0 +1,95 @@
+{% extends 'Company/company-base.html'%}
+{% block content%}
+<!-- ====== Main -->
+<main id="main" class="main">
+  <div class="pagetitle">
+    <h1>Generate Report</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin-dashbord' %}">Home</a></li>
+        <li class="breadcrumb-item active">Report</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="row">
+
+          <div class="text-end">
+            <button id="download_excel" type="button" class="btn btn-secondary btn-sm">Excel</button>
+            <button id="download_pdf" onclick="pdfDownload()" type="button"
+              class="btn btn-secondary btn-sm">Pdf</button>
+          </div>
+          <br>
+          <br>
+
+          <!-- transaction view -->
+          <div class="col">
+            <div class="card recent-sales overflow-auto">
+
+              <div class="card-body">
+                <table id="report_table" class="table table-border datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">Agent</th>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Amoun Paid</th>
+                      <th scope="col">Issuing Store</th>
+                      <th scope="col">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for transaction in all_transaction %}
+                    <tr>
+                     
+                      <td>{{transaction.Agent_order_id.Agent.id}}</td>
+                      <td>{{transaction.TransactionCode}}</td>
+                      <td>{{transaction.Total_Amount}} ETB</td>
+                      <td>{{transaction.Agent_order_id.Store}}</td>
+
+                      <td>{{transaction.date_created}}</td>
+                      
+                     
+                    </tr>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End transaction Sales -->
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</main><!-- End #main -->
+<script>
+  document.getElementById('download_excel').addEventListener('click', function () {
+    var table2excel = new Table2Excel();
+    table2excel.export(document.querySelectorAll("#report_table"));
+  });  
+</script>
+
+<script type="text/javascript">
+  function pdfDownload() {
+    html2canvas(document.getElementById('report_table'), {
+      onrendered: function (canvas) {
+        var data = canvas.toDataURL();
+        var docDefinition = {
+          content: [{
+            image: data,
+            width: 500
+          }]
+        };
+        pdfMake.createPdf(docDefinition).download("Table.pdf");
+      }
+    });
+  }
+</script>
+
+{% endblock %}
