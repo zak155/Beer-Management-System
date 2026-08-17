@@ -30,7 +30,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes, force_str
 #from django.contrib.auth import authenticate, login, logout
 from . tokens import generate_token
-
+import uuid
+from Customer.services.chapa import ChapaPaymentService
 # Create your views here.
 
 @login_required(login_url=('login'))
@@ -418,6 +419,90 @@ def customer_not_recived(request, pk):
 
 @login_required(login_url=('login'))
 def order_summer(request):
+    try:
+        if request.user.groups.all()[0].name == 'Customer':
+            all_product = Product.objects.all()
+            
+            if request.method == 'POST':
+                # 1. Create the authoritative order instance in DB
+                ag = Customer_order.objects.create(
+                    Customer=request.user.customer, 
+                    status='Pending', 
+                    driver_status='Not Assigned'
+                )
+                
+                ary1 = []
+                ary2 = []
+                tl = 0
+                arr = {}
+                q = 0
+                
+                for product in all_product:
+                    qty_str = request.POST.get(product.Product_Name, '0')
+                    a = int(qty_str) if qty_str.isdigit() else 0
+                    arr[product.Product_Name] = a
+                    tp = product.Price_in_creates * a
+                    ary1.append(a)
+                    ary2.append(tp)
+                    q += a
+                    tl += tp
+
+                # Save product quantity fields to the order
+                for key, value in arr.items():
+                    setattr(ag, key, value)
+                ag.save()
+
+                # 2. Generate a unique robust transaction reference
+                tx_ref = f"BSDS-ORD-{ag.id}-{uuid.uuid4().hex[:8]}"
+
+                # 3. Create initial pending transaction record in DB
+                Customer_Transaction.objects.create(
+                    Customer_order_id=ag,
+                    Total_Amount=tl,
+                    Paid_status='Not Paid',
+                    tx_ref=tx_ref,
+                    currency='ETB',
+                    provider_status='PENDING'
+                )
+
+                # 4. Prepare payload for Chapa Initialization API
+                user_email = request.user.email if request.user.email else f"customer_{request.user.id}@bgi.com"
+                first_name = request.user.first_name if request.user.first_name else "Customer"
+                last_name = request.user.last_name if request.user.last_name else "Agent"
+
+                chapa_payload = {
+                    "amount": str(tl),
+                    "currency": "ETB",
+                    "email": user_email,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "tx_ref": tx_ref,
+                    "callback_url": "http://127.0.0.1:8000/Customer/ipn/",
+                    "return_url": f"http://127.0.0.1:8000/Customer/success/?tx_ref={tx_ref}",
+                    "customization[title]": "BGI Beer Sales & Distribution",
+                    "customization[description]": f"Payment for Order #{ag.id}"
+                }
+
+                # 5. Call Chapa Service
+                try:
+                    chapa_service = ChapaPaymentService()
+                    response_data = chapa_service.initialize_payment(chapa_payload)
+                    checkout_url = response_data['data']['checkout_url']
+                    
+                    # 6. Redirect customer directly to Chapa hosted payment page
+                    return redirect(checkout_url)
+                    
+                except Exception as e:
+                    messages.error(request, f"Payment Initialization Failed: {str(e)}")
+                    return redirect('make_order')
+
+            return redirect('make_order')
+        
+        messages.error(request, 'Permission denied')
+        return redirect('logout')
+    except Exception as e:
+        messages.error(request, f'An error occurred: {str(e)}')
+        return redirect('logout')
     try:
         if request.user.groups.all()[0].name == 'Customer':
             ag = Customer_order.objects.create(
