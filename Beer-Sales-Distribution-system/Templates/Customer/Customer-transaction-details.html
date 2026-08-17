@@ -14,9 +14,9 @@
                         <thead>
                           <tr>
                             <th scope="col">Product</th>
-                            <th scope="col">unit price</th>
-                            <th scope="col">quantity</th>
-                            <th scope="col">Sub price</th>
+                            <th scope="col">Unit Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Sub Price</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -24,17 +24,15 @@
                             {% for row in data %}
                           <tr>
                             {% for cell in row %}
-                            <th>{{cell}}</th> 
+                            <td>{{ cell }}</td> 
                             {% endfor %}
                           </tr>
                           {% endfor %}
                           <tr>
-                              
                                 <th scope="col">Total Quantity</th>
-                                <th scope="col">  --------  </th>
-                                <th scope="col">{{total_quantity}}</th>
-                                <th scope="col">  --------  </th>
-                             
+                                <th scope="col"> -------- </th>
+                                <th scope="col">{{ total_quantity }}</th>
+                                <th scope="col"> -------- </th>
                           </tr>
                         </tbody>
                       </table>
@@ -48,38 +46,26 @@
                         <h5 class="card-title text-center">Payment Information</h5>
                         <hr class="mb-4">
                     <div>
-                        <span class="card-title">Order ID: </span>
-                        <span id="order_id" class="text-muted">{{transaction.TransactionCode}}</span>
+                        <span class="card-title">Tx Reference: </span>
+                        <span class="text-muted">{{ transaction.tx_ref|default:transaction.TransactionCode }}</span>
                     </div>
                     <div>
-                        <span id="store" class="card-title">Requested Store: </span>
-                        <span id="store" class="text-muted">Awasa</span>
-                    </div>
-                    <!-- <div>
-                        <span class="card-title">Order Date: </span>
-                        <span id="order_date" class="text-muted">{{transaction.created_date}}</span>
-                    </div> -->
-                    <div>
-                        <span class="card-title">Payment: </span>
-                        <span id="payment_type" class="text-muted">YenePay</span>
+                        <span class="card-title">Payment Provider: </span>
+                        <span class="text-muted">Chapa</span>
                     </div>
                     <div>
-                        <span class="card-title">Total Paid </span>
-                        <strong id="total_paid" class="text-muted">{{transaction.Total_Amount }}</strong>
+                        <span class="card-title">Total Paid: </span>
+                        <strong class="text-muted">{{ transaction.Total_Amount }} ETB</strong>
                     </div>
                     <div>
-                        <span class="card-title">Approval status: </span>
-                        <span id="approval_status" class="text-muted">Approved</span>
+                        <span class="card-title">Payment Status: </span>
+                        <span class="text-muted fw-bold {% if transaction.Paid_status == 'Paid' %}text-success{% else %}text-warning{% endif %}">{{ transaction.Paid_status }}</span>
                     </div>
                     </div>        
                 </div>
             </div>
-       
-        <!-- End transaction details -->
-    
       </div>
     </div>
-
   </div>
 </section>
 {% endblock %}
